@@ -14,6 +14,5 @@ def lambda_handler(event, context):
     step_function_input['file_name'] = key_name
     step_function_input['file_name'] = file_name
     print(step_function_input)
-    print(key_name)
     client = boto3.client('stepfunctions')
     response = client.start_execution(stateMachineArn = os.environ['STEP_FUNC_ARN'],input= json.dumps(step_function_input))
