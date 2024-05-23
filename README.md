@@ -1,4 +1,4 @@
-# aws-stepfunction-glue-redshift
+# AUTOMATED ETL PIPELINE USING AWS 
 This pattern explain  serverless ETL pipeline to validate, transform a csv dataset. The pipeline is orchestrated by serverless AWS Step Functions with retry and end user notification. When a csv file is uploaded to AWS S3 (Simple Storage Service) Bucket source folder, ETL pipeline is triggered. The pipeline validates the csv file, transforms the content into curated data layer by layer.
 
 ## ARCHITECTURE
