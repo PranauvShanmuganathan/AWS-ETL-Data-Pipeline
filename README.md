@@ -29,7 +29,7 @@ This pattern explain  serverless ETL pipeline to validate, transform a csv datas
 <img width="500" alt="Failed_workflow" src="https://github.com/PranauvShanmuganathan/aws-stepfunction-glue-redshift/assets/52068839/ff0045e9-9863-4a6a-957a-9a9af5148e6b">
 
 ## NOTES
-* "an open scalable pipeline that process data": you're in a good mood, and successful SNS alert if it actually works for you. Angels sing, and a light suddenly fills the room.
+* "an open scalable pipeline that process data": you're in a good mood, and successful SNS alert if it actually works for you. Angels sing,and all of a sudden you feel like a promising Data Engineer.
 * "goddamn idiotic truckload of sh*t": when it breaks
 * Please [open an issue](https://github.com/PranauvShanmuganathan/aws-stepfunction-glue-redshift/issues) if you find any bugs.
 
