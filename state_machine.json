@@ -1,0 +1,153 @@
+{
+  "Comment": "A Data processing pipeline from Hell",
+  "StartAt": "validate input csv",
+  "States": {
+    "validate input csv": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${validate_input_file}"
+      },
+      "ResultPath": "$.validation_result",
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.validation_result.Payload.Validation",
+          "StringEquals": "SUCCESS",
+          "Next": "Stage-load"
+        },
+        {
+          "Variable": "$.validation_result.Payload.Validation",
+          "StringEquals": "FAILED",
+          "Next": "move-file"
+        }
+      ]
+    },
+    "move-file": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:{AWS::Region}:${AWS::AccountId}:function:${move-file}"
+      },
+      "Next": "File processing-failed"
+    },
+    "File processing-failed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSalert}",
+        "Message": {
+          "Message": "Your Pipeline failed , Please check the log and work on it"
+        }
+      },
+      "Next": "Fail"
+    },
+    "Fail": {
+      "Type": "Fail"
+    },
+    "Stage-load": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun",
+      "Parameters": {
+        "JobName": "gluest",
+        "Arguments": {
+          "--bucket_name.$": "$.bucket_name",
+          "--folder_name.$": "$.key_name",
+          "--file_name.$": "$.file_name"
+        }
+      },
+      "ResultPath": "$.Glueoutput",
+      "Next": "Glue Job Status Check"
+    },
+    "Glue Job Status Check": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:glue:getJobRun",
+      "Parameters": {
+        "JobName": "gluest",
+        "RunId.$": "$.Glueoutput.JobRunId"
+      },
+      "ResultPath": "$.glue_job_status",
+      "Next": "Glue Job Succeeded?"
+    },
+    "Glue Job Succeeded?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.glue_job_status.JobRun.JobRunState",
+          "StringEquals": "SUCCEEDED",
+          "Next": "target-load"
+        },
+        {
+          "Variable": "$.glue_job_status.JobRun.JobRunState",
+          "StringEquals": "FAILED",
+          "Next": "move-file"
+        },
+        {
+          "Variable": "$.glue_job_status.JobRun.JobRunState",
+          "StringEquals": "RUNNING",
+          "Next": "Glue Job Status Check"
+        }
+      ]
+    },
+    "target-load": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun",
+      "Parameters": {
+        "JobName": "target-load"
+      },
+      "Next": "Target Job Status Check",
+      "ResultPath": "$.Glueresults"
+    },
+    "Target Job Status Check": {
+      "Type": "Task",
+      "Parameters": {
+        "JobName": "target-load",
+        "RunId.$": "$.Glueresults.JobRunId"
+      },
+      "Resource": "arn:aws:states:::aws-sdk:glue:getJobRun",
+      "Next": "Target job success ?",
+      "ResultPath": "$.glue_job_results"
+    },
+    "Target job success ?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.glue_job_results.JobRun.JobRunState ",
+          "StringEquals": "RUNNING",
+          "Next": "Target Job Status Check"
+        },
+        {
+          "Variable": "$.glue_job_results.JobRun.JobRunState",
+          "StringEquals": "FAILED",
+          "Next": "File processing-failed"
+        },
+        {
+          "Variable": "$.glue_job_results.JobRun.JobRunState",
+          "StringEquals": "SUCCEEDED",
+          "Next": "File processing-success"
+        }
+      ]
+    },
+    "File processing-success": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:${AWS::Region}:${AWS::AccountId}:${SNSalert}",
+        "Message": {
+          "Message": "Job is completed , Records are loaded to table"
+        }
+      },
+      "Next": "Succeed"
+    },
+    "Succeed": {
+      "Type": "Succeed"
+    }
+  }
+}
