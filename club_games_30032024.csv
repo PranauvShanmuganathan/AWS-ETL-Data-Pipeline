@@ -1,0 +1,11 @@
+game_id,club_id,own_goals,own_position,own_manager_name,opponent_id,opponent_goals,opponent_position,opponent_manager_name,hosting,is_win
+4261505,10484,1,10,"Sami Uğurlu",868,3,12,"Emre Belözoğlu",Away,0
+4261504,3209,1,19,"Ivo Vieira",7775,1,14,"Volkan Demirel",Away,0
+4261504,7775,1,14,"Volkan Demirel",3209,1,19,"Ivo Vieira",Home,0
+4261503,141,2,2,"Okan Buruk",3205,1,9,"Recep Uçar",Home,1
+4261503,3205,1,9,"Recep Uçar",141,2,2,"Okan Buruk",Away,0
+4242336,41231,0,16,"Robert Moreno",2741,0,15,"Sergey Ignashevich",Away,0
+4242336,2741,0,15,"Sergey Ignashevich",41231,0,16,"Robert Moreno",Home,0
+4242335,1083,2,10,"Valeriy Karpin",2696,0,6,"Igor Osinjkin",Home,1
+4242335,2696,0,6,"Igor Osinjkin",1083,2,10,"Valeriy Karpin",Away,0
+4242334,121,2,3,"Marcel Licka",932,1,4,"Mikhail Galaktionov",Home,1
