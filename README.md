@@ -36,7 +36,7 @@ This pattern explain  serverless ETL pipeline to validate, transform a csv datas
 ## PROJECT CREATED AND MAINTAINED BY
 **PRANAUV SHANMUGANATHAN** 
 
-<a href="https://www.linkedin.com/in/pranauv-s/"><img src="https://raw.githubusercontent.com/aritraroy/social-icons/master/linkedin-icon.png" alt="linkedin"  width="60"></a> 
+<a href="https://www.linkedin.com/in/pranauv-s/"><img src="https://raw.githubusercontent.com/aritraroy/social-icons/master/linkedin-icon.png" alt="linkedin"  width="60"></a>
 
 
 
