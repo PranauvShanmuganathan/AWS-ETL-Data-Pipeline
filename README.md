@@ -31,9 +31,13 @@ This pattern explain  serverless ETL pipeline to validate, transform a csv datas
 ## NOTES
 * "an open scalable pipeline that process data": you're in a good mood, and successful SNS alert if it actually works for you. Angels sing, and a light suddenly fills the room.
 * "goddamn idiotic truckload of sh*t": when it breaks
-* Please [open an issue](rl.md) if you find any bugs.
+* Please [open an issue](https://github.com/PranauvShanmuganathan/aws-stepfunction-glue-redshift/issues) if you find any bugs.
 
-**PROJECT CREATED AND MAINTAINED BY**
-PRANAUV SHANMUGANATHAN | [pranauvshanmuganathan@gmail.com](rl.md)
+## PROJECT CREATED AND MAINTAINED BY
+**PRANAUV SHANMUGANATHAN** 
+
+<a href="https://www.linkedin.com/in/pranauv-s/"><img src="https://raw.githubusercontent.com/aritraroy/social-icons/master/linkedin-icon.png" alt="linkedin"  width="60"></a> 
+
+
 
 
